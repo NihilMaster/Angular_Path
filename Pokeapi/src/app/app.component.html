@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokemón</title>
+</head>
+<body>
+  <h1>Pokedex</h1>
+  <div class="container">
+
+    <div class="containerGeneralList">
+      <div *ngIf="isLoading">Cargando Pokémon...</div>
+      <div style="visibility: hidden;" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <div >
+        <input #off type="number" value="0">
+        <input #lim type="number" value="50">
+        <button (click)="fetchPokemonList(+off.value, +lim.value)">Refrescar</button>
+      </div>
+      <div class="pokemon-list" *ngIf="!isLoading && pokemonList.length">
+        <ul>
+          <li *ngFor="let pokemon of pokemonList">
+            <strong>{{ pokemon.name | titlecase }}</strong>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="containerCard">
+      <div *ngIf="isLoading">Cargando Pokémon...</div>
+      <div [style.visibility]="errorMessage ? 'visible' : 'hidden'">{{ errorMessage }}</div>
+      <input #pokemonId type="number">
+      <button (click)="fetchPokemonById(+pokemonId.value)">Buscar</button>
+      @if (pokemonById && errorMessage == '') {
+        <div class="pokemon-card">
+          <div class="pokemon-card-image">
+            <img [src]="pokemonById?.sprites.front_default" alt="Imagen del Pokémon">
+          </div>
+          <div class="pokemon-card-info">
+            <h2>{{ pokemonById?.name | titlecase }}</h2>
+            <p>Altura: {{ pokemonById?.height }} cm</p>
+            <p>Peso: {{ pokemonById?.weight }} kg</p>
+            <p>Tipo: {{ pokemonById?.types[0].type.name | titlecase }}</p>
+            <p>Experiencia base: {{ pokemonById?.base_experience }}</p>
+            <p>Órden: {{ pokemonById?.order }}</p>
+          </div>
+        </div>
+      } @else {}
+    </div>
+  </div>
+  
+</body>
+</html>
