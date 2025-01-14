@@ -1,0 +1,9 @@
+.completed {
+    text-decoration: line-through;
+    font-style: italic;
+}
+
+.uncompleted {
+    text-decoration: none;
+    font-style: normal;
+}

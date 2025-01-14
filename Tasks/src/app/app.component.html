@@ -80,6 +80,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
+                                        <th>Completado</th>
                                         <th>Título</th>
                                         <th>Descripción</th>
                                         <th>Prioridad</th>
@@ -88,12 +89,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let task of tasks">
+                                    <tr  id="task{{ task.id }}" *ngFor="let task of tasks" [ngClass]="task.complete ? 'completed' : 'uncompleted'">
+                                        <td><input type="checkbox" [checked]="task.complete"  (click)="toggleCompleteTask(task.id)"></td>
                                         <td>{{ task.title }}</td>
                                         <td>{{ task.description }}</td>
-                                        <td><span class="badge" [ngClass]="{'bg-danger': task.priority === 'High', 
-                                                                            'bg-warning': task.priority === 'Media', 
-                                                                            'bg-success': task.priority === 'Low'}">
+                                        <td><span class="badge" [ngClass]="{'bg-danger': task.priority === 'high', 
+                                                                            'bg-warning': task.priority === 'medium', 
+                                                                            'bg-success': task.priority === 'low'}">
                                                                             {{ task.priority === 'high' ? 'Alta' : (task.priority === 'medium' ? 'Media' : 'Baja') }}
                                             </span></td>
                                         <td>{{ task.dueDate | date:'yyyy-MM-dd' }}</td>

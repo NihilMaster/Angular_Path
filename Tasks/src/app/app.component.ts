@@ -1,5 +1,5 @@
 import { TasksCrudService } from './services/tasks.crud.service'; // Servicio
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Necesario para implementar angular en el HTML
 import { ReactiveFormsModule } from '@angular/forms'; // Formularios reactivos
 import { FormGroup, FormControl } from '@angular/forms';
@@ -9,7 +9,8 @@ import { FormGroup, FormControl } from '@angular/forms';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
 
@@ -18,7 +19,10 @@ export class AppComponent implements OnInit{
   updateTime : boolean = false;
   updateId : number = 0;
 
-  constructor(private tasksCrudService: TasksCrudService) {
+  constructor(private tasksCrudService: TasksCrudService, 
+              private renderer: Renderer2,
+              private elementRef: ElementRef
+  ) {
     this.form = new FormGroup({
       title: new FormControl(''),
       priority: new FormControl(''),
@@ -33,9 +37,9 @@ export class AppComponent implements OnInit{
 
   //Create n Update
   createTask(): void{
-    const { title, priority, dueDate, description } = this.form.value;
+    const { complete, title, priority, dueDate, description } = this.form.value;
     const id = (this.updateTime) ? this.updateId : parseInt(this.generateId());
-    this.tasksCrudService.createTask(id, title, priority, dueDate, description, this.updateTime).subscribe({});
+    this.tasksCrudService.createTask(id, complete, title, priority, dueDate, description, this.updateTime).subscribe({});
     this.readTasks();
   }
 
@@ -83,4 +87,26 @@ export class AppComponent implements OnInit{
       }
     });
   }
+
+  //Complete
+  toggleCompleteTask(id: number): void{
+    this.tasksCrudService.readTask(id).subscribe({
+      next: (task) => {
+        const element = this.elementRef.nativeElement.querySelector(`#task${id}`);
+        if(task.complete != true){
+          this.renderer.removeClass(element, 'uncompleted');
+          this.renderer.addClass(element, 'completed');
+          this.renderer.addClass(element, 'bg-secondary');
+          this.tasksCrudService.createTask(task.id, !task.complete, task.title, task.priority, task.dueDate, task.description, true);
+        }else{
+          this.renderer.removeClass(element, 'completed');
+          this.renderer.removeClass(element, 'bg-secondary');
+          this.renderer.addClass(element, 'uncompleted');
+          this.tasksCrudService.createTask(task.id, !task.complete, task.title, task.priority, task.dueDate, task.description, true);
+        }
+      }
+    });
+  }
+
+
 }
