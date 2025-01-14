@@ -40,7 +40,9 @@ export class TasksCrudService {
   }
   //Delete
   deleteTask(id: number): Observable<any> {
-    localStorage.removeItem("task");
+    const tasks = JSON.parse(localStorage.getItem("task") || "[]");
+    const newTasks = tasks.filter((task: { id: number; }) => task.id !== id);
+    localStorage.setItem("task", JSON.stringify(newTasks));
     return new Observable<any>();
   }
 }

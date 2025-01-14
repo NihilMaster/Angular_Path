@@ -9,8 +9,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './app.component.html',
-  //styleUrl: './app.component.css'
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit{
 
@@ -52,8 +51,10 @@ export class AppComponent implements OnInit{
     });
   }
 
+  //Delete
   deleteTask(id : number): void{
-    this.tasksCrudService.deleteTask(id).subscribe(() => {});
+    this.tasksCrudService.deleteTask(id).subscribe({});
+    this.readTasks();
   }
 
   generateId(): string{

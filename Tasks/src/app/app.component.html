@@ -101,7 +101,7 @@
                                             <button class="btn btn-sm btn-warning me-1" (click)="toggleButton(task.id)">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button id={{task.id}} class="btn btn-sm btn-danger">
+                                            <button class="btn btn-sm btn-danger" (click)="deleteTask(task.id)">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
