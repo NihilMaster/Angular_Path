@@ -48,8 +48,11 @@
                                     <textarea formControlName="description" class="form-control" id="description" rows="3" placeholder="Describe la tarea"></textarea>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" [hidden]="updateTime">
                                         <i class="fas fa-plus"></i> Crear Tarea
+                                    </button>
+                                    <button type="submit" class="btn btn-warning" [hidden]="!updateTime">
+                                        <i class="fa-solid fa-pen"></i> Actualizar tarea
                                     </button>
                                 </div>
                             </div>
@@ -95,7 +98,7 @@
                                             </span></td>
                                         <td>{{ task.dueDate | date:'yyyy-MM-dd' }}</td>
                                         <td>
-                                            <button id={{task.id}} class="btn btn-sm btn-warning me-1">
+                                            <button class="btn btn-sm btn-warning me-1" (click)="toggleButton(task.id)">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                             <button id={{task.id}} class="btn btn-sm btn-danger">
@@ -103,34 +106,6 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    <!--tr>
-                                        <td>Completar informe</td>
-                                        <td>Realizar informe mensual de ventas</td>
-                                        <td><span class="badge bg-danger">Alta</span></td>
-                                        <td>2024-01-20</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-warning me-1">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Reunión cliente</td>
-                                        <td>Presentación nuevo proyecto</td>
-                                        <td><span class="badge bg-warning">Media</span></td>
-                                        <td>2024-01-25</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-warning me-1">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr-->
                                 </tbody>
                             </table>
                         </div>

@@ -16,6 +16,8 @@ export class AppComponent implements OnInit{
 
   tasks : any[] = [];
   form : FormGroup;
+  updateTime : boolean = false;
+  updateId : number = 0;
 
   constructor(private tasksCrudService: TasksCrudService) {
     this.form = new FormGroup({
@@ -30,12 +32,11 @@ export class AppComponent implements OnInit{
     this.readTasks();
   }
 
-  //Create
-  //id : number, title : string, priority : string, dueDate : string, description : string
+  //Create n Update
   createTask(): void{
     const { title, priority, dueDate, description } = this.form.value;
-    const id = parseInt(this.generateId());
-    this.tasksCrudService.createTask(id, title, priority, dueDate, description).subscribe({});
+    const id = (this.updateTime) ? this.updateId : parseInt(this.generateId());
+    this.tasksCrudService.createTask(id, title, priority, dueDate, description, this.updateTime).subscribe({});
     this.readTasks();
   }
 
@@ -49,10 +50,6 @@ export class AppComponent implements OnInit{
         console.log(error);
       }
     });
-  }
-
-  updateTask(id : number, title : string, priority : string, dueDate : string, description : string): void{
-    this.tasksCrudService.updateTask(id, title, priority, dueDate, description).subscribe(() => {});
   }
 
   deleteTask(id : number): void{
@@ -71,5 +68,18 @@ export class AppComponent implements OnInit{
     return id;
   }
 
-  title = 'Tasks';
+  toggleButton(id: number): void{
+    this.updateId = id;
+    this.updateTime = true;
+    this.tasksCrudService.readTask(id).subscribe({
+      next: (task) => {
+        this.form.setValue({
+          title: task.title,
+          priority: task.priority,
+          dueDate: task.dueDate,
+          description: task.description
+        });
+      }
+    });
+  }
 }
