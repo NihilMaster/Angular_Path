@@ -25,15 +25,15 @@
                         <h5 class="card-title mb-0">Nueva Tarea</h5>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form [formGroup]="form" (ngSubmit)="createTask()">
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="taskTitle" class="form-label">Título</label>
-                                    <input type="text" class="form-control" id="taskTitle" [required]="true" placeholder="Ingresa el título de la tarea">
+                                    <input formControlName="title" type="text" class="form-control" id="taskTitle" [required]="true" placeholder="Ingresa el título de la tarea">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="priority" class="form-label">Prioridad</label>
-                                    <select class="form-select" id="priority">
+                                    <select formControlName="priority" class="form-select" id="priority">
                                         <option value="low">Baja</option>
                                         <option value="medium">Media</option>
                                         <option value="high">Alta</option>
@@ -41,11 +41,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="dueDate" class="form-label">Fecha límite</label>
-                                    <input type="date" class="form-control" id="dueDate">
+                                    <input formControlName="dueDate" type="date" class="form-control" id="dueDate">
                                 </div>
                                 <div class="col-12">
                                     <label for="description" class="form-label">Descripción</label>
-                                    <textarea class="form-control" id="description" rows="3" placeholder="Describe la tarea"></textarea>
+                                    <textarea formControlName="description" class="form-control" id="description" rows="3" placeholder="Describe la tarea"></textarea>
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary">
@@ -91,7 +91,7 @@
                                         <td><span class="badge" [ngClass]="{'bg-danger': task.priority === 'High', 
                                                                             'bg-warning': task.priority === 'Media', 
                                                                             'bg-success': task.priority === 'Low'}">
-                                                                            {{ task.priority === 'High' ? 'Alta' : (task.priority === 'Media' ? 'Media' : 'Baja') }}
+                                                                            {{ task.priority === 'high' ? 'Alta' : (task.priority === 'medium' ? 'Media' : 'Baja') }}
                                             </span></td>
                                         <td>{{ task.dueDate | date:'yyyy-MM-dd' }}</td>
                                         <td>
