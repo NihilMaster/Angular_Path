@@ -108,5 +108,39 @@ export class AppComponent implements OnInit{
     });
   }
 
+  //Filter
+  filterTasks(event: any): void{
+    const filter = event.target.value;
+    if(filter == "all"){
+      this.readTasks();
+    }else if(filter == "complete"){
+      this.readTasks();
+      this.tasks = this.tasks.filter(task => task.complete);
+    }else if(filter == "pending"){
+      this.readTasks();
+      this.tasks = this.tasks.filter(task => !task.complete);
+    }
+  }
 
 }
+
+/*
+//Filter
+  filterTasks(event: any): void{
+    const filter = event.target.value;
+    
+    this.tasksCrudService.readTasks().subscribe({
+    next: (tasks) => {
+      if (filter === "all") {
+        this.tasks = tasks;
+      } else if (filter === "complete") {
+        this.tasks = tasks.filter(task => task.complete);
+      } else if (filter === "pending") {
+        this.tasks = tasks.filter(task => !task.complete);
+      }
+    },
+    error: (error) => {
+      console.error('Error al filtrar las tareas:', error);
+    }
+  });
+*/

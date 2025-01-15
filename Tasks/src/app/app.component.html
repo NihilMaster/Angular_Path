@@ -68,12 +68,16 @@
                 <div class="card">
                     <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">Lista de Tareas</h5>
-                        <div class="input-group w-50">
-                            <input type="text" class="form-control" placeholder="Buscar tareas...">
-                            <button class="btn btn-outline-light" type="button">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
+                        <div class="mb-3">
+                            <label for="taskFilter" class="form-label">Filtrar tareas</label>
+                            <select id="taskFilter" name="taskFilter" class="form-select" (change)="filterTasks($event)">
+                              <option value="all">Todas</option>
+                              <option value="complete">Completas</option>
+                              <option value="pending">Pendientes</option>
+                            </select>
+                            <div class="form-text">Selecciona el estado de las tareas para filtrar.</div>
+                          </div>
+                          
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
