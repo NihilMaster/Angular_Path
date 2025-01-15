@@ -46,4 +46,9 @@ export class TasksCrudService {
     localStorage.setItem("task", JSON.stringify(newTasks));
     return new Observable<any>();
   }
+  //Check
+  CheckIfAllTasksCompleted(): Observable<boolean> {
+    const tasks = JSON.parse(localStorage.getItem("task") || "[]");
+    return of(tasks.every((task: { complete: boolean; }) => task.complete));
+  }
 }

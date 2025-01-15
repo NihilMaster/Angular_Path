@@ -48,7 +48,7 @@
                                     <textarea formControlName="description" class="form-control" id="description" rows="3" placeholder="Describe la tarea"></textarea>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary" [hidden]="updateTime">
+                                    <button id="createTaskButton" type="submit" class="btn btn-primary" disabled [hidden]="updateTime">
                                         <i class="fas fa-plus"></i> Crear Tarea
                                     </button>
                                     <button type="submit" class="btn btn-warning" [hidden]="!updateTime">
@@ -70,15 +70,16 @@
                         <h5 class="card-title mb-0">Lista de Tareas</h5>
                         <div class="mb-3">
                             <label for="taskFilter" class="form-label">Filtrar tareas</label>
-                            <select id="taskFilter" name="taskFilter" class="form-select" (change)="filterTasks($event)">
-                              <option value="all">Todas</option>
-                              <option value="complete">Completas</option>
-                              <option value="pending">Pendientes</option>
+                            <!--select id="taskFilter" class="form-select" disabled (change)="filterTasks($event)"-->
+                            <!--select [(ngModel)]="filterValue" select id="taskFilter" class="form-select" disabled-->
+                            <select select id="taskFilter" [(ngModel)]="filterValue" (ngModelChange)="onFilterChange()" class="form-select" disabled>
+                                <option value="all">Todas</option>
+                                <option value="complete">Completas</option>
+                                <option value="pending">Pendientes</option>
                             </select>
                             <div class="form-text">Selecciona el estado de las tareas para filtrar.</div>
-                          </div>
-                          
-                    </div>
+                        </div>
+                    </div>  
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -116,6 +117,32 @@
                             </table>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <div class="modal-overlay" *ngIf="alertModal">
+            <div class="alert alert-success alert-dismissible fade show border rounded modal-window" role="alert">
+                <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+                    <h4 class="alert-heading mb-0">¡Felicidades!</h4>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <p class="mb-2">Todas las tareas han sido completadas.</p>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary" (click)="closeModal()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-overlay" *ngIf="errorModal">
+            <div class="alert alert-warning alert-dismissible fade show border rounded modal-window" role="alert">
+                <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+                    <h4 class="alert-heading mb-0">¡Cuidado!</h4>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <p class="mb-2">Uno o todos los campos están vacíos y necesitan ser llenados para continuar.</p>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary" (click)="closeModal()">Aceptar</button>
                 </div>
             </div>
         </div>

@@ -1,4 +1,3 @@
-
 ### **Ejercicio Completo: Gestión de Tareas Dinámicas con Angular**
 
 #### **Descripción General**
@@ -31,11 +30,7 @@ Crea una aplicación de gestión de tareas donde el usuario pueda agregar, edita
 
    - Opciones para filtrar por **Todas**, **Completadas** y **Pendientes**.
    - Usa directivas para mostrar u ocultar tareas según el filtro.
-6. **Feedback Dinámico:**
-
-   - Mostrar mensajes condicionales si no hay tareas o si todas están completadas.
-   - Implementar carga inicial de datos simulada (con un `setTimeout`).
-7. **Persistencia Temporal:**
+6. **Persistencia Temporal:**
 
    - Guardar las tareas en el almacenamiento local del navegador (`localStorage`).
    - Al recargar la página, recuperar las tareas almacenadas.
@@ -55,7 +50,8 @@ Crea una aplicación de gestión de tareas donde el usuario pueda agregar, edita
 3. **Lifecycle Hooks:**
 
    - **`ngOnInit`:** Cargar las tareas desde `localStorage` al iniciar.
-   - **`ngOnChanges`:** Detectar cambios en el filtro de tareas.
+   - **̶`̶n̶g̶O̶n̶C̶h̶a̶n̶g̶e̶s̶`̶:** ̶D̶e̶t̶e̶c̶t̶a̶r̶ ̶c̶a̶m̶b̶i̶o̶s̶ ̶e̶n̶ ̶e̶l̶ ̶f̶i̶l̶t̶r̶o̶ ̶d̶e̶ ̶t̶a̶r̶e̶a̶s̶.̶(Este hook no sirve con un *select*)
+   - **`ngModelCheck`:** Detectar cambios en el filtro de tareas.
    - **`ngDoCheck`:** Validar si todas las tareas están completadas para mostrar un mensaje.
    - **`ngAfterViewInit`:** Ejecutar lógica después de que la vista esté cargada.
    - **`ngOnDestroy`:** Guardar las tareas antes de que el componente se destruya.
