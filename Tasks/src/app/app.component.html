@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col">
+                <h1 class="display-4">Task Manager</h1>
+                <p class="text-muted">Gestiona tus tareas de forma simple y efectiva</p>
+            </div>
+        </div>
+
+        <!-- Create Task Form -->
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Nueva Tarea</h5>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="form" (ngSubmit)="createTask()">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="taskTitle" class="form-label">Título</label>
+                                    <input formControlName="title" type="text" class="form-control" id="taskTitle" [required]="true" placeholder="Ingresa el título de la tarea">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="priority" class="form-label">Prioridad</label>
+                                    <select formControlName="priority" class="form-select" id="priority">
+                                        <option value="low">Baja</option>
+                                        <option value="medium">Media</option>
+                                        <option value="high">Alta</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="dueDate" class="form-label">Fecha límite</label>
+                                    <input formControlName="dueDate" type="date" class="form-control" id="dueDate">
+                                </div>
+                                <div class="col-12">
+                                    <label for="description" class="form-label">Descripción</label>
+                                    <textarea formControlName="description" class="form-control" id="description" rows="3" placeholder="Describe la tarea"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button id="createTaskButton" type="submit" class="btn btn-primary" disabled [hidden]="updateTime">
+                                        <i class="fas fa-plus"></i> Crear Tarea
+                                    </button>
+                                    <button type="submit" class="btn btn-warning" [hidden]="!updateTime">
+                                        <i class="fa-solid fa-pen"></i> Actualizar tarea
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task List -->
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Lista de Tareas</h5>
+                        <div class="mb-3">
+                            <label for="taskFilter" class="form-label">Filtrar tareas</label>
+                            <!--select id="taskFilter" class="form-select" disabled (change)="filterTasks($event)"-->
+                            <!--select [(ngModel)]="filterValue" select id="taskFilter" class="form-select" disabled-->
+                            <select select id="taskFilter" [(ngModel)]="filterValue" (ngModelChange)="onFilterChange()" class="form-select" disabled>
+                                <option value="all">Todas</option>
+                                <option value="complete">Completas</option>
+                                <option value="pending">Pendientes</option>
+                            </select>
+                            <div class="form-text">Selecciona el estado de las tareas para filtrar.</div>
+                        </div>
+                    </div>  
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Completado</th>
+                                        <th>Título</th>
+                                        <th>Descripción</th>
+                                        <th>Prioridad</th>
+                                        <th>Fecha límite</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  id="task{{ task.id }}" *ngFor="let task of tasks" [ngClass]="task.complete ? 'completed' : 'uncompleted'">
+                                        <td><input type="checkbox" [checked]="task.complete"  (click)="toggleCompleteTask(task.id)"></td>
+                                        <td>{{ task.title }}</td>
+                                        <td>{{ task.description }}</td>
+                                        <td><span class="badge" [ngClass]="{'bg-danger': task.priority === 'high', 
+                                                                            'bg-warning': task.priority === 'medium', 
+                                                                            'bg-success': task.priority === 'low'}">
+                                                                            {{ task.priority === 'high' ? 'Alta' : (task.priority === 'medium' ? 'Media' : 'Baja') }}
+                                            </span></td>
+                                        <td>{{ task.dueDate | date:'yyyy-MM-dd' }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning me-1" (click)="toggleButton(task.id)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" (click)="deleteTask(task.id)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <div class="modal-overlay" *ngIf="alertModal">
+            <div class="alert alert-success alert-dismissible fade show border rounded modal-window" role="alert">
+                <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+                    <h4 class="alert-heading mb-0">¡Felicidades!</h4>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <p class="mb-2">Todas las tareas han sido completadas.</p>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary" (click)="closeModal()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-overlay" *ngIf="errorModal">
+            <div class="alert alert-warning alert-dismissible fade show border rounded modal-window" role="alert">
+                <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+                    <h4 class="alert-heading mb-0">¡Cuidado!</h4>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <p class="mb-2">Uno o todos los campos están vacíos y necesitan ser llenados para continuar.</p>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary" (click)="closeModal()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
