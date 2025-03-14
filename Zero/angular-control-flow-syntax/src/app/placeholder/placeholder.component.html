@@ -1,0 +1,10 @@
+@defer (when isImageVisible) {
+    <img src="https://lastfm.freetls.fastly.net/i/u/ar0/a86d5c838895474eb420d35b73089925.jpg" 
+         alt="Differed Image"/>
+} @placeholder {
+    <p>Setting up the content...</p>
+}
+
+@if (!isImageVisible){
+    <button (click)="showImage()">See Image</button>
+} 

@@ -1,0 +1,9 @@
+@defer (when isContentReady) {
+    <h2>Large content loaded</h2>
+    <img src="https://lastfm.freetls.fastly.net/i/u/ar0/a86d5c838895474eb420d35b73089925.jpg" 
+         alt="Differed Image"/>
+} @loading (after 2000ms; minimum 4s) {
+    <p>Loading...</p>
+} @placeholder {
+    <p>Setting up the content...</p>
+}

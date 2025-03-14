@@ -1,0 +1,12 @@
+<!-- Forma convencional -->
+<!--
+<div *ngIf="isVisible; else elseBlock">Se ve locura</div>
+<ng-template #elseBlock>Contenido Oculto</ng-template>
+-->
+
+<!-- Forma "control-flow-syntax" -->
+@if ( isVisible ){
+    <div> Se ve locura </div>
+} @else {
+    <span> Contenido Oculto </span>
+}
