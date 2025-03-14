@@ -1,0 +1,21 @@
+<!-- Forma convencional -->
+<!--ul>
+    <li **ngFor="let name of names trackby">{{ name }}</li>
+</ul-->
+
+<!-- Forma control-flow-syntax -->
+<ul>
+    @for (name of names; track name){
+        <li>{{ name }}</li>
+    }
+</ul>
+
+<!-- Además: @empty -->
+@for (name of names; track name){
+    <li>{{ name }}</li>
+} @empty {
+    <li>No name</li>
+}
+
+<!-- Nota: trackby sirve para darle una KEY a cada iteración, 
+ evitando así Angular tenga que buscar uno por uno -->

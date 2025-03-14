@@ -1,0 +1,16 @@
+<!-- Forma convencional -->
+<!--img [hidden]="!isImageVisible" 
+     src="https://lastfm.freetls.fastly.net/i/u/ar0/a86d5c838895474eb420d35b73089925.jpg" 
+     alt="Differed Image"/>
+
+<button *ngIf="!isImageVisible" (click)="showImage()">See Image</button-->
+
+<!-- Forma control-flow-syntax -->
+@defer (when isImageVisible) {
+    <img src="https://lastfm.freetls.fastly.net/i/u/ar0/a86d5c838895474eb420d35b73089925.jpg" 
+         alt="Differed Image"/>
+}
+
+@if (!isImageVisible){
+    <button (click)="showImage()">See Image</button>
+}

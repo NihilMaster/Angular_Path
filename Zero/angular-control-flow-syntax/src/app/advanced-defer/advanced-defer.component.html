@@ -1,0 +1,81 @@
+<h3>when</h3>
+@defer (when dataReady){
+    <p>Data has been loaded</p>
+} @placeholder {
+   <p>Awaiting for the data</p> 
+}
+<hr>
+
+<h3>idle</h3>
+@defer (on idle){
+    <p>Large component loaded after everything is loaded and the browser is idle</p>
+} @placeholder {
+    <p>Awaiting for the data</p> 
+}
+<hr>
+
+<h3>triggerElement</h3>
+<div #triggerElement>Hola</div>
+@defer(on viewport(triggerElement)){
+    <p>Component loaded because triggerElement is in the viewport</p>
+} @placeholder {
+    <p>Awaiting for the data</p> 
+}
+<hr>
+
+<h3>interaction</h3>
+@defer(on interaction){
+    <p>Component was load after the user interacted</p>
+} @placeholder {
+    <p>Interact with me for load the component</p> 
+}
+<hr>
+
+<h3>interactionElement</h3>
+<div #interactionElement>Actioner</div>
+@defer(on interaction(interactionElement)){
+    <p>Component loaded because interactionElement was interacted</p>
+} @placeholder {
+    <p>Awaiting for the interaction</p> 
+}
+<hr>
+
+<h3>hover</h3>
+@defer(on hover){
+    <p>Component was load after the user hovered the placeholder</p>
+} @placeholder {
+    <p>Hover me (✋) for load the component</p> 
+}
+<hr>
+
+<h3>hoverElement</h3>
+<div #hoverElement>Hoverer</div>
+@defer(on hover(hoverElement)){
+    <p>Component was load after the user hovered hoverElement</p>
+} @placeholder {
+    <p>Hover(✋) the element for load the component</p> 
+}
+<hr>
+
+<h3>timer</h3>
+@defer (on timer(5000)){
+    <p>Component loaded after 5 seconds</p>
+} @placeholder {
+    <p>Awaiting for the data</p>
+}
+<hr>
+
+<h3>prefetch</h3>
+@defer (on interaction; prefetch on idle) {
+    <p>Component pre-loaded when the browser is idle, and displayed because you interacted with the placeholder</p>
+} @placeholder {
+    <p>Interact with me to load the component. It will be pre-loaded when the browser is idle.</p>
+}
+<hr>
+
+<h3>viewport</h3>
+@defer (on viewport){
+    <p>Large component loaded after it appeared inside the viewport</p>
+} @placeholder {
+    <p>Awaiting for the data</p> 
+}
